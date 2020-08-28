@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import lombok.extern.log4j.Log4j2;
 
 /**
  * CurrencyConversionController.
  * @author Kate Novik
  */
+@Log4j2
 @RestController
 public class CurrencyConversionController {
 
@@ -41,6 +43,7 @@ public class CurrencyConversionController {
       @PathVariable BigDecimal quantity) {
 
     CurrencyConversionBean response = currencyExchangeServiceProxy.retrieveExchangeValue(from, to);
+    log.info("{}", response);
 
     return new CurrencyConversionBean(response.getId(), from, to,
         response.getConversionMultiple(), quantity, quantity.multiply(response.getConversionMultiple()), response.getPort());
